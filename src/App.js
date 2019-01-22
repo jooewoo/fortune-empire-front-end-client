@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import './App.scss'
 import { Route, Link } from 'react-router-dom'
 
@@ -8,6 +8,8 @@ import SignUp from './auth/components/SignUp'
 import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
+import BillCreate from './bill/components/BillCreate'
+import BillShow from './bill/components/BillShow'
 
 class App extends Component {
   constructor () {
@@ -35,12 +37,13 @@ class App extends Component {
 
   render () {
     const { flashMessage, flashType, user } = this.state
+    console.log(this.state)
 
     return (
-      <React.Fragment>
+      <Fragment>
         <Header user={user} />
         {flashMessage && <h3 className={flashType}>{flashMessage}</h3>}
-        
+
         <main className="container">
           <Route path='/sign-up' render={() => (
             <SignUp flash={this.flash} setUser={this.setUser} />
@@ -54,8 +57,14 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword flash={this.flash} user={user} />
           )} />
+          <AuthenticatedRoute user={user} exact path='/bills' render={() => (
+            <BillCreate flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/bills/:id' render={() => (
+            <BillShow flash={this.flash} user={user} />
+          )} />
         </main>
-      </React.Fragment>
+      </Fragment>
     )
   }
 }

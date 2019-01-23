@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { showBills } from '../api'
 import apiUrl from '../../apiConfig'
+import Moment from 'react-moment'
 
 class BillIndex extends Component {
   constructor (props) {
@@ -25,18 +26,17 @@ class BillIndex extends Component {
   render () {
     console.log(this.state.bills)
     const bills = this.state.bills.map(bill => {
+
       return (
-        <li key={bill._id}>
+        <li key={bill._id} >
           <Link to={`/bills/${bill._id}`}>
-            Retailer: {bill.name}
-            Price: ${bill.price}
-            Date: {bill.date}
+            <p>Retailer: {bill.name} Price: ${bill.price} Date: <Moment format='MM/DD/YYYY'>{bill.date}</Moment></p>
           </Link>
         </li>
       )
     })
 
-    return(
+    return (
       <Fragment>
         <h3>Bills</h3>
         <ol>{bills}</ol>

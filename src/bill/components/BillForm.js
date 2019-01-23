@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 
-const BillForm = ({ handleChange, createBill, bill }) => (
+const BillForm = ({ handleChange, handleBill, bill }) => (
   <Fragment>
     <h3>Bills</h3>
-    <form onSubmit={createBill}>
+    <form onSubmit={handleBill}>
       <label>Retailer</label>
       <input
         name="name"
@@ -25,7 +25,7 @@ const BillForm = ({ handleChange, createBill, bill }) => (
         value={bill.date}
         onChange={handleChange}
       />
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Edit" />
     </form>
   </Fragment>
 )

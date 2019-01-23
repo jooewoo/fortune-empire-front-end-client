@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { createBill } from '../api'
-import { Redirect } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import { Link, withRouter } from 'react-router-dom'
+import { showBills, editBill } from '../api'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
-import BillIndex from './BillIndex'
 
-class BillCreate extends Component {
+class BillEdit extends Component {
   constructor(props) {
     super(props)
     console.log(props)
@@ -16,11 +14,11 @@ class BillCreate extends Component {
         name: '',
         price: '',
         date: '',
-        id: props.user._id
+        user: props.user._id
       },
+      edited: false,
       user: props.user,
-      id: '',
-      created: false
+      billID: props.match.params.id
     }
   }
 
@@ -32,36 +30,28 @@ class BillCreate extends Component {
     this.setState({ bill: editedBill })
   }
 
-  createBill = event => {
+  edit = event => {
     event.preventDefault()
     console.log(this.state.bill)
 
-    createBill(this.state)
+    editBill(this.state)
       .then(res => res.ok ? res : new Error())
       .then(res => res.json())
-      .then(data => this.setState({ id: data.bill._id, created: true }))
+      .then(data => console.log(data))
       .catch(console.error)
   }
 
   render () {
-    const { name, price, date } = this.state.bill
-    console.log(this.state)
-
-    if (this.state.create === true) {
-      return <Redirect to={`/bills/${this.state.id}`} />
-    }
-
-    return(
+    return (
       <Fragment>
         <BillForm
           handleChange={this.handleChange}
-          handleBill={this.createBill}
+          handleBill={this.edit}
           bill={this.state.bill}
         />
-        <BillIndex user={this.state.user}/>
       </Fragment>
     )
   }
 }
 
-export default withRouter(BillCreate)
+export default withRouter(BillEdit)

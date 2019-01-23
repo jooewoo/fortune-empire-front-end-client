@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
 import { showBill, deleteBill } from '../api'
 import apiUrl from '../../apiConfig'
+import Moment from 'react-moment'
+import BillEdit from './BillEdit'
 
 class BillShow extends Component {
   constructor (props) {
@@ -33,17 +35,19 @@ class BillShow extends Component {
   render () {
     // debugger
     const { name, price, date } = this.state.bill
+    console.log(this.state.bill)
 
     return(
       <Fragment>
         <h3>Bills</h3>
         <p>Name: {name}</p>
         <p>Price: ${price}</p>
-        <p>Date: {date}</p>
+        <p>Date: <Moment format='MM/DD/YYYY'>{date}</Moment></p>
         <button>
           <Link to="/bills">Back</Link>
         </button>
         <button onClick={this.destroy}><Link to="/bills">Delete</Link></button>
+        <BillEdit user={this.state.user} />
       </Fragment>
     )
   }

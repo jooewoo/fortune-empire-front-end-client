@@ -8,6 +8,8 @@ import SignUp from './auth/components/SignUp'
 import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
+import ProfileShow from './profile/components/ProfileShow'
+import ProfileCreate from './profile/components/ProfileCreate'
 import BillCreate from './bill/components/BillCreate'
 import BillShow from './bill/components/BillShow'
 
@@ -56,6 +58,12 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/profile' render={() => (
+            <ProfileShow flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/profile-create' render={() => (
+            <ProfileCreate flash={this.flash} user={user} />
           )} />
           <AuthenticatedRoute user={user} exact path='/bills' render={() => (
             <BillCreate flash={this.flash} user={user} />

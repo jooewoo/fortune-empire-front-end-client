@@ -47,7 +47,7 @@ class BillCreate extends Component {
     const { name, price, date } = this.state.bill
     console.log(this.state)
 
-    if (this.state.create === true) {
+    if (this.state.created === true) {
       return <Redirect to={`/bills/${this.state.id}`} />
     }
 

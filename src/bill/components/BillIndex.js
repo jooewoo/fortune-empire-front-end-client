@@ -28,18 +28,29 @@ class BillIndex extends Component {
     const bills = this.state.bills.map(bill => {
 
       return (
-        <li key={bill._id} >
-          <Link to={`/bills/${bill._id}`}>
-            <p>Retailer: {bill.name} Price: ${bill.price} Date: <Moment format='MM/DD/YYYY'>{bill.date}</Moment></p>
-          </Link>
-        </li>
+        <tr key={bill._id} >
+          <td><Link to={`/bills/${bill._id}`}>{bill.name}</Link></td>
+          <td>${bill.price}</td>
+          <td><Moment format='MM/DD/YYYY'>{bill.date}</Moment></td>
+        </tr>
       )
     })
 
     return (
       <Fragment>
         <h3>Bills</h3>
-        <ol>{bills}</ol>
+        <table className='table table-striped table-hover'>
+          <thead className="thead-dark">
+            <tr>
+              <th>Bill</th>
+              <th>Price</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bills}
+          </tbody>
+        </table>
       </Fragment>
     )
   }

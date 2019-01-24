@@ -10,6 +10,7 @@ import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
 import ProfileShow from './profile/components/ProfileShow'
 import ProfileCreate from './profile/components/ProfileCreate'
+import ProfileEdit from './profile/components/ProfileEdit'
 import BillCreate from './bill/components/BillCreate'
 import BillShow from './bill/components/BillShow'
 
@@ -20,7 +21,17 @@ class App extends Component {
     this.state = {
       user: null,
       flashMessage: '',
-      flashType: null
+      flashType: null,
+      profile: {
+        name: '',
+        income: '',
+        tax: '',
+        disposable_income: '',
+        created: false,
+        user: ''
+      },
+      user: '',
+      created: false
     }
   }
 
@@ -39,7 +50,6 @@ class App extends Component {
 
   render () {
     const { flashMessage, flashType, user } = this.state
-    console.log(this.state)
 
     return (
       <Fragment>
@@ -64,6 +74,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} exact path='/profile-create' render={() => (
             <ProfileCreate flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/profile-edit/:id' render={() => (
+            <ProfileEdit flash={this.flash} user={user} />
           )} />
           <AuthenticatedRoute user={user} exact path='/bills' render={() => (
             <BillCreate flash={this.flash} user={user} />

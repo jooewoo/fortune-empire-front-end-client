@@ -9,7 +9,6 @@ import BillIndex from './BillIndex'
 class BillCreate extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
 
     this.state = {
       bill: {
@@ -20,12 +19,20 @@ class BillCreate extends Component {
       },
       user: props.user,
       id: '',
-      created: false
+      created: false,
+      profile: props.location.profile,
+      isHidden: true,
+      flash: props.flash
     }
   }
 
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
+
   handleChange = event => {
-    console.log(this.state)
     const editedBill = {
       ...this.state.bill, [event.target.name]: event.target.value
     }
@@ -34,7 +41,6 @@ class BillCreate extends Component {
 
   createBill = event => {
     event.preventDefault()
-    console.log(this.state.bill)
 
     createBill(this.state)
       .then(res => res.ok ? res : new Error())
@@ -45,20 +51,23 @@ class BillCreate extends Component {
 
   render () {
     const { name, price, date } = this.state.bill
-    console.log(this.state)
 
     if (this.state.created === true) {
-      return <Redirect to={`/bills/${this.state.id}`} />
+      return <Redirect to={{ pathname: `/bills/${this.state.id}` }} />
     }
 
     return(
       <Fragment>
-        <BillForm
+        {!this.state.isHidden && <BillForm
           handleChange={this.handleChange}
           handleBill={this.createBill}
           bill={this.state.bill}
-        />
-        <BillIndex user={this.state.user}/>
+          toggleName="Submit"
+        />}
+        <button onClick={this.toggleHidden.bind(this)} >
+        Add a Bill
+        </button>
+        <BillIndex user={this.state.user} flash={this.state.flash} />
       </Fragment>
     )
   }

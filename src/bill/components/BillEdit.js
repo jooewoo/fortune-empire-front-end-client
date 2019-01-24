@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { showBills, editBill } from '../api'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
@@ -7,7 +7,6 @@ import BillForm from './BillForm'
 class BillEdit extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
 
     this.state = {
       bill: {
@@ -18,12 +17,18 @@ class BillEdit extends Component {
       },
       edited: false,
       user: props.user,
-      billID: props.match.params.id
+      billID: props.match.params.id,
+      isHidden: true
     }
   }
 
+  toggleHidden () {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
+
   handleChange = event => {
-    console.log(this.state)
     const editedBill = {
       ...this.state.bill, [event.target.name]: event.target.value
     }
@@ -32,23 +37,28 @@ class BillEdit extends Component {
 
   edit = event => {
     event.preventDefault()
-    console.log(this.state.bill)
 
     editBill(this.state)
       .then(res => res.ok ? res : new Error())
-      .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => this.setState({ edited: true }))
       .catch(console.error)
   }
 
   render () {
+    if (this.state.edited === true) {
+      return <Redirect to='/bills' />
+    }
     return (
       <Fragment>
-        <BillForm
+        {!this.state.isHidden && <BillForm
           handleChange={this.handleChange}
           handleBill={this.edit}
           bill={this.state.bill}
-        />
+          toggleName="Edit"
+        />}
+        <button onClick={this.toggleHidden.bind(this)} >
+        Edit Your Bill
+        </button>
       </Fragment>
     )
   }

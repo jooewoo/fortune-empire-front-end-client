@@ -24,28 +24,27 @@ class ProfileShow extends Component {
     }
 
     const response = await axios.get(`${apiUrl}/profiles`, options)
-    console.log(response)
     this.setState({ profile: response.data.profiles, created: true })
 
   }
 
   render () {
-    console.log(this.state)
-    console.log(this.state.profile.length)
-
-    if (this.state.profile.length === 0) {
-      return <Redirect to={'/profile-create/'} />
-    } else if (this.state.created === true ) {
+    if (this.state.created === true ) {
       const profile = this.state.profile[0]
       return (
         <Fragment>
-          <p>Name: {profile.name}</p>
-          <p>Income: {profile.income}</p>
-          <p>Tax: {profile.tax}</p>
-          <p>Disposable Income: {profile.disposable_income}</p>
+          <div className='card'>
+            <h5 className='card-header'>Profile Info</h5>
+            <div className='card-body'>
+              <p className='card-text'>Name: {profile.name}</p>
+              <p className='card-text'>Income: {profile.income}</p>
+              <p className='card-text'>Tax: {profile.tax}</p>
+              <p className='card-text'>Disposable Income: {profile.disposable_income}</p>
+              <button><Link to={`/profile-edit/${this.state.profile[0]._id}`}>Edit Profile</Link></button>
+            </div>
+          </div>
         </Fragment>
       )
-      console.log(profile)
     }
     return(
       <Fragment>

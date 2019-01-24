@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import apiUrl from '../../apiConfig'
 import axios from 'axios'
 
-class ProfileCreate extends Component {
+class ProfileEdit extends Component {
   constructor(props) {
     super(props)
 
@@ -14,30 +13,11 @@ class ProfileCreate extends Component {
         income: '',
         tax: '',
         disposable_income: '',
-        created: false,
         user: props.user._id
       },
+      edited: false,
       user: props.user,
-      created: false,
-      redirectArr: null,
-      redirect: false
-    }
-  }
-
-  async componentDidMount() {
-    const options = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization':`Token token=${this.state.user.token}`
-      }
-    }
-
-    const response = await axios.get(`${apiUrl}/profiles`, options)
-    this.setState({ redirectArr: response.data.profiles })
-    if (response.data.profiles.length === 0) {
-      this.setState({ redirect: false })
-    } else if (response.data.profiles[0].created === true) {
-      this.setState({ redirect: true })
+      profileID: props.match.params.id
     }
   }
 
@@ -47,13 +27,13 @@ class ProfileCreate extends Component {
     }
 
     editedProfile.disposable_income = editedProfile.income * (1 - editedProfile.tax)
+    editedProfile.created = true
     this.setState({ profile: editedProfile})
   }
 
-
   handleSubmit = async (event) => {
     event.preventDefault()
-    this.state.profile.created = true
+
     const data = JSON.stringify({ profile: this.state.profile })
     const options = {
       headers: {
@@ -62,38 +42,34 @@ class ProfileCreate extends Component {
       }
     }
 
-    const response = await axios.post(`${apiUrl}/profiles`, data, options)
-    this.setState({ profile: response.data.profile, created: true })
+    const response = await axios.patch(`${apiUrl}/profiles/${this.state.profileID}`, data, options)
+    this.setState({ edited: true })
   }
 
   render () {
-    if (this.state.redirect === true) {
-      return <Redirect to={{ pathname: '/bills', profile: this.state.redirectArr  }} />
-    } else if (this.state.created === true) {
+    if (this.state.edited === true) {
       return <Redirect to='/profile' />
     }
+
     return (
       <Fragment>
-        <h3>Create Profile</h3>
+        <h3>Profile Edit</h3>
         <form onSubmit={this.handleSubmit}>
-          <label>Name</label>
           <input
             name="name"
             placeholder="John Smith"
             value={this.state.profile.name}
             onChange={this.handleChange}
           />
-          <label>$</label>
           <input
             name="income"
-            placeholder="50000"
+            placeholder="income: 50000"
             value={this.state.profile.price}
             onChange={this.handleChange}
           />
-          <label>tax</label>
           <input
             name="tax"
-            placeholder="0.29"
+            placeholder="tax: 0.29"
             value={this.state.profile.date}
             onChange={this.handleChange}
           />
@@ -104,4 +80,4 @@ class ProfileCreate extends Component {
   }
 }
 
-export default withRouter(ProfileCreate)
+export default withRouter(ProfileEdit)

@@ -8,7 +8,6 @@ import BillEdit from './BillEdit'
 class BillShow extends Component {
   constructor (props) {
     super(props)
-    console.log(props)
 
     this.state = {
       bill: {},
@@ -27,27 +26,28 @@ class BillShow extends Component {
   }
 
   destroy = () => {
-    console.log('destroy')
-
     deleteBill(this.state.id, this.state.user.token)
+      .then(res => res.ok ? res: new Error())
+      .then(data => this.setState({ deleted: true }))
   }
 
   render () {
-    // debugger
     const { name, price, date } = this.state.bill
-    console.log(this.state.bill)
+    if (this.state.deleted === true) {
+      return <Redirect to='/bills' />
+    }
 
-    return(
+    return (
       <Fragment>
+        <BillEdit user={this.state.user} />
         <h3>Bills</h3>
-        <p>Name: {name}</p>
+        <p>Bill: {name}</p>
         <p>Price: ${price}</p>
         <p>Date: <Moment format='MM/DD/YYYY'>{date}</Moment></p>
         <button>
           <Link to="/bills">Back</Link>
         </button>
         <button onClick={this.destroy}><Link to="/bills">Delete</Link></button>
-        <BillEdit user={this.state.user} />
       </Fragment>
     )
   }

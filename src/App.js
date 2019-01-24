@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import './App.scss'
 import { Route, Link } from 'react-router-dom'
 
@@ -8,6 +8,11 @@ import SignUp from './auth/components/SignUp'
 import SignIn from './auth/components/SignIn'
 import SignOut from './auth/components/SignOut'
 import ChangePassword from './auth/components/ChangePassword'
+import ProfileShow from './profile/components/ProfileShow'
+import ProfileCreate from './profile/components/ProfileCreate'
+import ProfileEdit from './profile/components/ProfileEdit'
+import BillCreate from './bill/components/BillCreate'
+import BillShow from './bill/components/BillShow'
 
 class App extends Component {
   constructor () {
@@ -16,7 +21,17 @@ class App extends Component {
     this.state = {
       user: null,
       flashMessage: '',
-      flashType: null
+      flashType: null,
+      profile: {
+        name: '',
+        income: '',
+        tax: '',
+        disposable_income: '',
+        created: false,
+        user: ''
+      },
+      user: '',
+      created: false
     }
   }
 
@@ -37,10 +52,10 @@ class App extends Component {
     const { flashMessage, flashType, user } = this.state
 
     return (
-      <React.Fragment>
+      <Fragment>
         <Header user={user} />
         {flashMessage && <h3 className={flashType}>{flashMessage}</h3>}
-        
+
         <main className="container">
           <Route path='/sign-up' render={() => (
             <SignUp flash={this.flash} setUser={this.setUser} />
@@ -54,8 +69,23 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword flash={this.flash} user={user} />
           )} />
+          <AuthenticatedRoute user={user} exact path='/profile' render={() => (
+            <ProfileShow flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/profile-create' render={() => (
+            <ProfileCreate flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/profile-edit/:id' render={() => (
+            <ProfileEdit flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/bills' render={() => (
+            <BillCreate flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/bills/:id' render={() => (
+            <BillShow flash={this.flash} user={user} />
+          )} />
         </main>
-      </React.Fragment>
+      </Fragment>
     )
   }
 }

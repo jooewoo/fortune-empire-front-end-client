@@ -11,6 +11,7 @@ import ChangePassword from './auth/components/ChangePassword'
 import BillCreate from './bill/components/BillCreate'
 import BillShow from './bill/components/BillShow'
 import BillIndex from './bill/components/BillIndex'
+import BillEdit from './bill/components/BillEdit'
 
 class App extends Component {
   constructor () {
@@ -72,6 +73,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} exact path='/bills/:id' render={() => (
             <BillShow flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/bills/:id/bill-edit' render={() => (
+            <BillEdit flash={this.flash} user={user} />
           )} />
         </main>
       </Fragment>

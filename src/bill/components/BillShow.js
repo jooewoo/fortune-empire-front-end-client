@@ -33,8 +33,8 @@ class BillShow extends Component {
     const { flash } = this.props
     deleteBill(this.state.id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
-      .then(() => flash(messages.deleteBillSuccess, 'flash-success'))
       .then(() => this.setState({ deleted: true }))
+      .then(() => flash(messages.deleteBillSuccess, 'flash-success'))
       .catch(() => flash(messages.deleteBillFailure, 'flash-warning'))
   }
 

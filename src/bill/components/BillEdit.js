@@ -43,7 +43,7 @@ class BillEdit extends Component {
 
   edit = event => {
     event.preventDefault()
-    const { flash } = this.props
+    const { flash } = this.state
 
     editBill(this.state)
       .then(res => res.ok ? res : new Error())
@@ -54,7 +54,7 @@ class BillEdit extends Component {
 
   render () {
     if (this.state.edited === true) {
-      return <Redirect to='/bills' flash={this.props.flash} />
+      return <Redirect to='/bills' />
     }
 
     return (

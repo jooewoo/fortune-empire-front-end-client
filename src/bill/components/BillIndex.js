@@ -26,8 +26,6 @@ class BillIndex extends Component {
       .then(() => {
         if (this.state.bills.length === 0) {
           flash(messages.noBills, 'flash-success')
-        } else {
-          flash(messages.getAllBillsSuccess, 'flash-success')
         }
       })
       .catch(() => flash(messages.getAllBillsFailure, 'flash-warning'))

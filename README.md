@@ -37,7 +37,7 @@ Finally, I progressed to working on the front end client to try and achieve mini
 * As a signed in user, I would like to delete my bill
 
 ### Wireframes
-
+[Wireframe](https://github.com/jooewoo/fortune-empire-front-end-client/tree/master/wireframes)
 ## Future Intentions
 * As a signed in user, I would like to create a profile.
 * As a signed in user, I would like to update my profile.

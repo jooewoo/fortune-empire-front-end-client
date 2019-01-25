@@ -48,9 +48,7 @@ class BillEdit extends Component {
       .then(res => res.ok ? res : new Error())
       .then(data => this.setState({ edited: true }))
       .then(() => flash(messages.editBillSuccess, 'flash-success'))
-      .catch(() => {
-        console.error
-      })
+      .catch(() => flash(messages.editBillFailure, 'flash-warning'))
   }
 
   render () {

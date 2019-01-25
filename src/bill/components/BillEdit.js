@@ -3,25 +3,30 @@ import { Link, withRouter, Redirect } from 'react-router-dom'
 import { showBills, editBill } from '../api'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
+import messages from '../messages'
 
 class BillEdit extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      bill: {
-        name: '',
-        price: '',
-        date: '',
-        user: props.user._id
-      },
+      bill: this.initialBill(),
       edited: false,
       user: props.user,
       billID: props.match.params.id,
-      isHidden: true
+      isHidden: true,
+      flash: props.flash
     }
   }
 
+  initialBill = () => {
+    return {
+      name: '',
+      price: '',
+      date: '',
+      user: this.props.user._id
+    }
+  }
   toggleHidden () {
     this.setState({
       isHidden: !this.state.isHidden
@@ -37,11 +42,15 @@ class BillEdit extends Component {
 
   edit = event => {
     event.preventDefault()
+    const { flash } = this.props
 
     editBill(this.state)
       .then(res => res.ok ? res : new Error())
       .then(data => this.setState({ edited: true }))
-      .catch(console.error)
+      .then(() => flash(messages.editBillSuccess, 'flash-success'))
+      .catch(() => {
+        console.error
+      })
   }
 
   render () {

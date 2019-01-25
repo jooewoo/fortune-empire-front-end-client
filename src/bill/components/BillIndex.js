@@ -4,7 +4,6 @@ import { showBills } from '../api'
 import apiUrl from '../../apiConfig'
 import Moment from 'react-moment'
 import messages from '../messages'
-
 class BillIndex extends Component {
   constructor (props) {
     super(props)
@@ -22,7 +21,13 @@ class BillIndex extends Component {
       .then(res => res.ok ? res: new Error())
       .then(res => res.json())
       .then(data => this.setState({ bills: data.bills }))
-      .then(() => flash(messages.getAllBillsSuccess, 'flash-success'))
+      .then(() => {
+        if (this.state.bills.length === 0) {
+          flash(messages.noBills, 'flash-success')
+        } else {
+          flash(messages.getAllBillsSuccess, 'flash-success')
+        }
+      })
       .catch(console.error)
   }
 
@@ -36,10 +41,8 @@ class BillIndex extends Component {
         </tr>
       )
     })
-
-    return (
+    const table = (
       <Fragment>
-        <h3>Bills</h3>
         <table className='table table-striped table-hover'>
           <thead>
             <tr>
@@ -52,6 +55,13 @@ class BillIndex extends Component {
             {bills}
           </tbody>
         </table>
+      </Fragment>
+    )
+    const { flash } = this.props
+    return (
+      <Fragment>
+        <h3>Bills</h3>
+        {this.state.bills.length ? table : <h3>You dont have any bills!</h3>}
       </Fragment>
     )
   }

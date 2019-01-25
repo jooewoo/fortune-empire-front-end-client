@@ -5,24 +5,29 @@ import { withRouter } from 'react-router'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import BillIndex from './BillIndex'
+import messages from '../messages'
 
 class BillCreate extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      bill: {
-        name: '',
-        price: '',
-        date: '',
-        id: props.user._id
-      },
+      bill: this.initialBill(),
       user: props.user,
       id: '',
       created: false,
       profile: props.location.profile,
       isHidden: true,
       flash: props.flash
+    }
+  }
+
+  initialBill = () => {
+    return {
+      name: '',
+      price: '',
+      date: '',
+      user: this.props.user._id
     }
   }
 
@@ -41,19 +46,24 @@ class BillCreate extends Component {
 
   createBill = event => {
     event.preventDefault()
-
+    const { flash } = this.props
     createBill(this.state)
       .then(res => res.ok ? res : new Error())
       .then(res => res.json())
       .then(data => this.setState({ id: data.bill._id, created: true }))
-      .catch(console.error)
+      .then(() => flash(messages.createBillSuccess, 'flash-success'))
+      .catch(() => {
+        console.error
+        // flash(messages.createdTrip, ;flash-error)
+        this.setState({ bill: this.initialBill() })
+      })
   }
 
   render () {
     const { name, price, date } = this.state.bill
 
     if (this.state.created === true) {
-      return <Redirect to={{ pathname: `/bills/${this.state.id}` }} />
+      return <Redirect to={{ pathname: `/bills/${this.state.id}`, flash: this.state.flash }} />
     }
 
     return(

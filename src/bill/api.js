@@ -4,7 +4,7 @@ export const handleErrors = res => {
   if (res.ok) {
     return res
   } else  {
-    throw new Error('Recieved status in 400 or 500 range.')
+    throw new Error('Received status in 400 or 500 range.')
   }
 }
 

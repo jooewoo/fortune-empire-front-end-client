@@ -4,20 +4,22 @@ import { showBill, deleteBill } from '../api'
 import apiUrl from '../../apiConfig'
 import Moment from 'react-moment'
 import BillEdit from './BillEdit'
+import messages from '../messages'
 
 class BillShow extends Component {
   constructor (props) {
     super(props)
-
+    console.log(props)
     this.state = {
       bill: {},
       user: props.user,
-      id: props.match.params.id
+      id: props.match.params.id,
+      flash: props.flash,
+      deleted: false
     }
   }
 
   componentDidMount () {
-
     showBill(this.state.id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
       .then(res => res.json())
@@ -26,9 +28,12 @@ class BillShow extends Component {
   }
 
   destroy = () => {
+    const { flash, history } = this.props
     deleteBill(this.state.id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
-      .then(data => this.setState({ deleted: true }))
+      .then(() => flash(messages.deleteBillSuccess, 'flash-success'))
+      .then(() => this.setState({ deleted: true }))
+      .catch(console.error)
   }
 
   render () {
@@ -39,7 +44,6 @@ class BillShow extends Component {
 
     return (
       <Fragment>
-        <BillEdit user={this.state.user} />
         <h3>Bills</h3>
         <p>Bill: {name}</p>
         <p>Price: ${price}</p>
@@ -47,7 +51,8 @@ class BillShow extends Component {
         <button>
           <Link to="/bills">Back</Link>
         </button>
-        <button onClick={this.destroy}><Link to="/bills">Delete</Link></button>
+        <button onClick={this.destroy}>Delete</button>
+        <BillEdit user={this.state.user} flash={this.state.flash}/>
       </Fragment>
     )
   }

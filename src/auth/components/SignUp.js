@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { handleErrors, signUp, signIn } from '../api'
 import messages from '../messages'
 import apiUrl from '../../apiConfig'
+import './SignUp.scss'
 
 class SignUp extends Component {
   constructor () {
@@ -33,7 +34,7 @@ class SignUp extends Component {
       .then(res => res.json())
       .then(res => setUser(res.user))
       .then(() => flash(messages.signUpSuccess, 'flash-success'))
-      .then(() => history.push('/'))
+      .then(() => history.push('/bills'))
       .catch(() => flash(messages.signUpFailure, 'flash-error'))
   }
 

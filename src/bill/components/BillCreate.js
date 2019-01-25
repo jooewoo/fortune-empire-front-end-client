@@ -6,6 +6,7 @@ import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import BillIndex from './BillIndex'
 import messages from '../messages'
+import './Bill.scss'
 
 class BillCreate extends Component {
   constructor(props) {
@@ -68,16 +69,20 @@ class BillCreate extends Component {
 
     return(
       <Fragment>
-        {!this.state.isHidden && <BillForm
-          handleChange={this.handleChange}
-          handleBill={this.createBill}
-          bill={bill}
-          toggleName="Submit"
-        />}
-        <button onClick={this.toggleHidden.bind(this)} >
-        Add a Bill
-        </button>
-        <BillIndex user={user} flash={flash} />
+        <div className='bills'>
+          {!this.state.isHidden && <BillForm
+            handleChange={this.handleChange}
+            handleBill={this.createBill}
+            bill={bill}
+            toggleName="Submit"
+          />}
+          <button onClick={this.toggleHidden.bind(this)} >
+          Add a Bill
+          </button>
+        </div>
+        <div className='bill-index'>
+          <BillIndex user={user} flash={flash} />
+        </div>
       </Fragment>
     )
   }

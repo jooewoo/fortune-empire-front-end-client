@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import './Bill.scss'
 
 const BillForm = ({ handleChange, handleBill, bill, toggleName }) => (
   <Fragment>

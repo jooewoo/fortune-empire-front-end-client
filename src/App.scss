@@ -1,12 +1,16 @@
+$teal: rgba(10, 106, 136, 0.9);
 $success: #c7f282;
 $warning: #f1e681;
 $error: #f08181;
 $charcoal: #ccc;
+$white: #fff;
+$orange: rgba(255, 165, 0, 0.9);
 
 .flash-success,
 .flash-warning,
 .flash-error {
   border: 1px solid $charcoal;
+  border-radius: 15px;
   display: block;
   left: 25%;
   padding: 30px;
@@ -18,15 +22,16 @@ $charcoal: #ccc;
 }
 
 .flash-success {
-  background-color: $success;
+  background-color: $teal;
+  color: $white;
 }
 
 .flash-warning {
-  background-color: $warning;
+  background-color: $orange;
 }
 
 .flash-error {
-  background-color: $error;
+  background-color: $orange;
 }
 
 .auth-form {
@@ -46,3 +51,14 @@ $charcoal: #ccc;
     max-width: 200px;
   }
 }
+
+// .container {
+//   background-image: url('./capstone/city-5.jpg');
+//   background-size: cover;
+//   display: flex;
+//   height: 700px;
+//   justify-content: space-between;
+//   margin: 0 auto;
+//   height: 100vh;
+//   width: 100%;
+// }

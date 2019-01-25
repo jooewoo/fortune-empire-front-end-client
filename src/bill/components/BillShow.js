@@ -20,20 +20,21 @@ class BillShow extends Component {
   }
 
   componentDidMount () {
+    const { flash } = this.props
     showBill(this.state.id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
       .then(res => res.json())
       .then(data => this.setState({ bill: data.bill }))
-      .catch(console.error)
+      .catch(() => flash(messages.getAllBillsFailure, 'flash-warning'))
   }
 
   destroy = () => {
-    const { flash, history } = this.props
+    const { flash } = this.props
     deleteBill(this.state.id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
       .then(() => flash(messages.deleteBillSuccess, 'flash-success'))
       .then(() => this.setState({ deleted: true }))
-      .catch(console.error)
+      .catch(() => flash(messages.deleteBillFailure, 'flash-warning'))
   }
 
   render () {

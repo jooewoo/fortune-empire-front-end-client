@@ -5,7 +5,7 @@ This is a full stack capstone project built with React and Express. Fortune Empi
 ## Try the app!
 To try the app, click on the deployed url above. Use the following credentials <strong>Username:</strong> hello@hello <strong>Password:</strong> world
 
-Picture
+[Front-End Picture](./public/front-end-picture.PNG)
 
 ## Front End Installation (Current Repo)
 1.  Fork and clone this repository.

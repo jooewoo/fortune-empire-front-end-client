@@ -61,7 +61,6 @@ Finally, I progressed to working on the front end client to try and achieve mini
 * JavaScript
 * Node.js
 * Bootstrap
-* Chartjs
 
 ## Author
 Made by Joseph Woo

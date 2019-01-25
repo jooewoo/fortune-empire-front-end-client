@@ -1,0 +1,43 @@
+$white: #fff;
+$teal: #0a6a88;
+
+.auth-form {
+  background-color: $teal;
+  border-radius: 15px;
+  color: $white;
+  opacity: 0.95;
+
+  h3 {
+    margin: 0;
+    padding-left: 150px;
+  }
+
+  label {
+    margin: 5px;
+    padding-left: 150px;
+  }
+
+  input {
+    border-radius: 15px;
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+  }
+
+  button {
+    align-self: center;
+    background-color: $white;
+    border-radius: 15px;
+    margin: 15px;
+  }
+}
+
+// .auth-form {
+//   background-image: url('../../capstone/city-5.jpg');
+//   background-size: cover;
+//   display: flex;
+//   height: 700px;
+//   justify-content: space-between;
+//   margin: 0 auto;
+//   width: 100vh;
+// }

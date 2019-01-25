@@ -1,0 +1,66 @@
+$white: #fff;
+$teal: #0a6a88;
+$black: #000;
+$orange: #ffa500;
+
+.bills {
+  color: $white;
+
+  h3 {
+    padding-left: 280px;
+  }
+
+  button {
+    border-radius: 15px;
+  }
+
+  input {
+    border-radius: 15px;
+    text-align: center;
+  }
+}
+
+.table {
+  background-color: $teal;
+  border-radius: 15px;
+  color: $white;
+  margin: 0 auto;
+  width: 50%;
+
+  .thead {
+    background-color: $white;
+    color: $black;
+  }
+
+  .td {
+    color: $white;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  tr:hover {
+    color: $orange;
+  }
+}
+
+.bill-show {
+  background-color: $teal;
+  border-radius: 15px;
+  color: $white;
+  margin: 30px auto;
+  // margin-top: 10px;
+  text-align: center;
+  width: 50%;
+
+  button {
+    border-radius: 15px;
+  }
+
+  input {
+    border-radius: 15px;
+    text-align: center;
+    width: 30%;
+  }
+}

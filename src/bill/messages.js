@@ -1,11 +1,11 @@
 export default {
-  billCreateSuccess: 'Succesfully registered! You\'ve been signed in as well.',
+  createBillSuccess: 'You have successfully created a bill!',
   getAllBillsSuccess: 'You have successfully gotten all your bills!',
-  editBillSuccess: 'Welcome!',
-  deleteBillSuccess: 'Failed to sign in. Check your email and password and try' +
-                  ' again.',
-  billCreateFailure: 'Come back soon!',
-  changePasswordSuccess: 'Password changed successfully!',
-  changePasswordFailure: 'Failed to change passwords. Check your old password' +
-                         ' and try again.'
+  editBillSuccess: 'You have successfully edited your bill!',
+  deleteBillSuccess: 'You have successfully deleted a bill!',
+  billCreateFailure: 'Unfortunately, your bill was not created! Please try again!',
+  getAllBillsFailure: 'Unfortunately, your bills were not retrieved! Please try again!',
+  editBillSuccess: 'Unfortunately, your bill was not updated with your new information! Please try again',
+  deleteBillFailure: 'Unfortunately, your bill was not deleted! Please try again!',
+  noBills: 'You have no bills! This is where you start to add your bills!'
 }

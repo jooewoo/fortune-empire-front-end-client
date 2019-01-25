@@ -5,24 +5,30 @@ import { withRouter } from 'react-router'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import BillIndex from './BillIndex'
+import messages from '../messages'
+import './Bill.scss'
 
 class BillCreate extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      bill: {
-        name: '',
-        price: '',
-        date: '',
-        id: props.user._id
-      },
+      bill: this.initialBill(),
       user: props.user,
       id: '',
       created: false,
       profile: props.location.profile,
       isHidden: true,
       flash: props.flash
+    }
+  }
+
+  initialBill = () => {
+    return {
+      name: '',
+      price: '',
+      date: '',
+      user: this.props.user._id
     }
   }
 
@@ -41,33 +47,42 @@ class BillCreate extends Component {
 
   createBill = event => {
     event.preventDefault()
-
+    const { flash } = this.props
     createBill(this.state)
       .then(res => res.ok ? res : new Error())
       .then(res => res.json())
       .then(data => this.setState({ id: data.bill._id, created: true }))
-      .catch(console.error)
+      .then(() => flash(messages.createBillSuccess, 'flash-success'))
+      .catch(() => {
+        flash(messages.billCreateFailure, 'flash-error')
+        this.setState({ bill: this.initialBill() })
+      })
   }
 
   render () {
     const { name, price, date } = this.state.bill
+    const { created, id, flash, user, bill } = this.state
 
-    if (this.state.created === true) {
-      return <Redirect to={{ pathname: `/bills/${this.state.id}` }} />
+    if (created === true) {
+      return <Redirect to={{ pathname: `/bills/${id}`, flash: flash }} />
     }
 
     return(
       <Fragment>
-        {!this.state.isHidden && <BillForm
-          handleChange={this.handleChange}
-          handleBill={this.createBill}
-          bill={this.state.bill}
-          toggleName="Submit"
-        />}
-        <button onClick={this.toggleHidden.bind(this)} >
-        Add a Bill
-        </button>
-        <BillIndex user={this.state.user} flash={this.state.flash} />
+        <div className='bills'>
+          {!this.state.isHidden && <BillForm
+            handleChange={this.handleChange}
+            handleBill={this.createBill}
+            bill={bill}
+            toggleName="Submit"
+          />}
+          <button onClick={this.toggleHidden.bind(this)} >
+          Add a Bill
+          </button>
+        </div>
+        <div className='bill-index'>
+          <BillIndex user={user} flash={flash} />
+        </div>
       </Fragment>
     )
   }

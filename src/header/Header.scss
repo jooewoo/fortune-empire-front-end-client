@@ -1,17 +1,33 @@
 $charcoal: #bbb;
+$teal: #0a6a88;
+$skyblue: #63dcf3;
+$white: #fff;
 
 .main-header {
   align-items: center;
-  border-bottom: 1px solid $charcoal;
+  border-bottom: 1px solid $teal;
   display: flex;
-  height: 100px;
+  height: 120px;
   padding: 0 20px;
 
   a,
   span {
+    color: $white;
     font-size: 1.2em;
     margin: 0 15px;
   }
+
+  a:hover {
+    color: $skyblue;
+  }
+
+  h2 {
+    font-family: 'Indie Flower', cursive;
+  }
+}
+
+.link {
+  color: white;
 }
 
 .main-header > nav {
@@ -29,6 +45,7 @@ $charcoal: #bbb;
     padding: 10px;
 
     h1 {
+      font-family: 'Indie Flower', cursive;
       font-size: 2.5em;
     }
   }

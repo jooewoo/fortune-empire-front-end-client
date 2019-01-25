@@ -1,37 +1,33 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import logo from './fortune-empire-4.png'
 import './Header.scss'
 
 const authenticatedOptions = (
   <React.Fragment>
-    <Link to="/bills">Bills</Link>
-    <Link to="/change-password">Change Password</Link>
-    <Link to="/sign-out">Sign Out</Link>
+    <Link className="link" to="/bills">Bills</Link>
+    <Link className="link" to="/change-password">Change Password</Link>
+    <Link className="link" to="/sign-out">Sign Out</Link>
   </React.Fragment>
 )
 
 const unauthenticatedOptions = (
   <React.Fragment>
-    <Link to="/sign-up">Sign Up</Link>
-    <Link to="/sign-in">Sign In</Link>
-  </React.Fragment>
-)
-
-const alwaysOptions = (
-  <React.Fragment>
-    <Link to="/">Home</Link>
+    <Link className="link" to="/sign-up">Sign Up</Link>
+    <Link className="link" to="/sign-in">Sign In</Link>
   </React.Fragment>
 )
 
 const Header = ({ user }) => (
   <header className="main-header">
-    <img src="https://i.imgur.com/Q2iEfLb.png" height="90px" width="160px"/>
-    <h1>Fortune Empire</h1>
+    <h2>
+      <Link to="/">
+        <img src={logo}height="125px" width="220px"/>
+      </Link>
+    </h2>
     <nav>
       { user && <span>Welcome, {user.email}</span>}
       { user ? authenticatedOptions : unauthenticatedOptions }
-      { alwaysOptions }
     </nav>
   </header>
 )

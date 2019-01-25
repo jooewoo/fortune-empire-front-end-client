@@ -28,7 +28,7 @@ class BillIndex extends Component {
           flash(messages.getAllBillsSuccess, 'flash-success')
         }
       })
-      .catch(console.error)
+      .catch(() => flash(messages.getAllBillsFailure, 'flash-warning'))
   }
 
   render () {

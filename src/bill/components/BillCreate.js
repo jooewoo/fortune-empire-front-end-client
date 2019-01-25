@@ -60,9 +60,10 @@ class BillCreate extends Component {
 
   render () {
     const { name, price, date } = this.state.bill
+    const { created, id, flash, user, bill } = this.state
 
-    if (this.state.created === true) {
-      return <Redirect to={{ pathname: `/bills/${this.state.id}`, flash: this.state.flash }} />
+    if (created === true) {
+      return <Redirect to={{ pathname: `/bills/${id}`, flash: flash }} />
     }
 
     return(
@@ -70,13 +71,13 @@ class BillCreate extends Component {
         {!this.state.isHidden && <BillForm
           handleChange={this.handleChange}
           handleBill={this.createBill}
-          bill={this.state.bill}
+          bill={bill}
           toggleName="Submit"
         />}
         <button onClick={this.toggleHidden.bind(this)} >
         Add a Bill
         </button>
-        <BillIndex user={this.state.user} flash={this.state.flash} />
+        <BillIndex user={user} flash={flash} />
       </Fragment>
     )
   }

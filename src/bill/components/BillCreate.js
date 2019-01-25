@@ -53,8 +53,7 @@ class BillCreate extends Component {
       .then(data => this.setState({ id: data.bill._id, created: true }))
       .then(() => flash(messages.createBillSuccess, 'flash-success'))
       .catch(() => {
-        console.error
-        // flash(messages.createdTrip, ;flash-error)
+        flash(messages.billCreateFailure, 'flash-error')
         this.setState({ bill: this.initialBill() })
       })
   }

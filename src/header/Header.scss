@@ -4,13 +4,17 @@ $charcoal: #bbb;
   align-items: center;
   border-bottom: 1px solid $charcoal;
   display: flex;
-  height: 100px;
+  height: 120px;
   padding: 0 20px;
 
   a,
   span {
     font-size: 1.2em;
     margin: 0 15px;
+  }
+
+  h2 {
+    font-family: 'Indie Flower', cursive;
   }
 }
 
@@ -29,6 +33,7 @@ $charcoal: #bbb;
     padding: 10px;
 
     h1 {
+      font-family: 'Indie Flower', cursive;
       font-size: 2.5em;
     }
   }

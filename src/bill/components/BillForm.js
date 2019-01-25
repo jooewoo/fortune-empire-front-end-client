@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react'
 import './Bill.scss'
 
-const BillForm = ({ handleChange, handleBill, bill, toggleName }) => (
+const BillForm = ({ className, handleChange, handleBill, bill, toggleName }) => (
   <Fragment>
-    <form onSubmit={handleBill}>
+    <form onSubmit={handleBill} className={className}>
       <input
         required
         name="name"

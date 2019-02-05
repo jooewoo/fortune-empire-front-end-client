@@ -3,6 +3,51 @@ $teal: #0a6a88;
 $black: #000;
 $orange: #ffa500;
 
+.talkbubble {
+  background: $orange;
+  border-radius: 10px;
+  color: $white;
+  height: 50px;
+  padding-top: 12px;
+  position: relative;
+  text-align: center;
+  width: 90px;
+}
+
+.ant-tabs-nav-wrap {
+  color: $white;
+}
+
+.whole-bills {
+  display: flex;
+}
+
+.bills-table {
+  width: 80%;
+}
+
+.ant-calendar-picker-input {
+  // border-bottom: 1px solid black !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+}
+
+.ant-calendar-picker-input:active {
+  // border-bottom: 1px solid black !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+}
+
+.bill-form-input {
+  // border-bottom: 1px solid gray;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  margin-right: 10px;
+}
+
 .bills {
   color: $white;
 
@@ -25,11 +70,13 @@ $orange: #ffa500;
     margin-top: 15px;
   }
 
-  .create-bill-form {
-    margin-bottom: 15px;
-    margin-left: 25%;
-    margin-top: 15px;
+  .bill-modal {
+    margin: 10px;
   }
+}
+
+.create-bill-form {
+  display: inline-flex;
 }
 
 .table {
@@ -75,4 +122,8 @@ $orange: #ffa500;
     text-align: center;
     width: 30%;
   }
+}
+
+.ant-table-tbody {
+  background-color: $white;
 }

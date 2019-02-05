@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
 import './Bill.scss'
+import { DatePicker } from 'antd'
+import 'antd/dist/antd.css'
 
-const BillForm = ({ className, handleChange, handleBill, bill, toggleName }) => (
+const BillForm = ({ className, handleChange, handleBill, bill, toggleName, onDateChange }) => (
   <Fragment>
     <form onSubmit={handleBill} className={className}>
       <input
@@ -10,6 +12,7 @@ const BillForm = ({ className, handleChange, handleBill, bill, toggleName }) => 
         placeholder="Bill"
         value={bill.name}
         onChange={handleChange}
+        className="bill-form-input"
       />
       <input
         required
@@ -17,15 +20,9 @@ const BillForm = ({ className, handleChange, handleBill, bill, toggleName }) => 
         placeholder="300"
         value={bill.price}
         onChange={handleChange}
+        className="bill-form-input"
       />
-      <input
-        required
-        name="date"
-        type="date"
-        value={bill.date}
-        onChange={handleChange}
-      />
-      <input type="submit" value={toggleName} />
+      <DatePicker name="date" onChange={onDateChange} />
     </form>
   </Fragment>
 )

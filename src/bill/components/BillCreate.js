@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import BillIndex from './BillIndex'
+import BillModal from './BillModal'
 import messages from '../messages'
 import './Bill.scss'
 
@@ -17,8 +18,6 @@ class BillCreate extends Component {
       user: props.user,
       id: '',
       created: false,
-      profile: props.location.profile,
-      isHidden: true,
       flash: props.flash
     }
   }
@@ -30,12 +29,6 @@ class BillCreate extends Component {
       date: '',
       user: this.props.user._id
     }
-  }
-
-  toggleHidden () {
-    this.setState({
-      isHidden: !this.state.isHidden
-    })
   }
 
   handleChange = event => {
@@ -62,6 +55,7 @@ class BillCreate extends Component {
   render () {
     const { name, price, date } = this.state.bill
     const { created, id, flash, user, bill } = this.state
+    const { visible, confirmLoading, ModalText } = this.state
 
     if (created === true) {
       return <Redirect to={{ pathname: `/bills/${id}`, flash: flash }} />
@@ -69,21 +63,7 @@ class BillCreate extends Component {
 
     return(
       <Fragment>
-        <div className='bills'>
-          {!this.state.isHidden && <BillForm
-            className='create-bill-form'
-            handleChange={this.handleChange}
-            handleBill={this.createBill}
-            bill={bill}
-            toggleName="Submit"
-          />}
-          <button className='create-button' onClick={this.toggleHidden.bind(this)} >
-          Add a Bill
-          </button>
-        </div>
-        <div className='bill-index'>
-          <BillIndex user={user} flash={flash} />
-        </div>
+        <BillModal bill={bill} />
       </Fragment>
     )
   }

@@ -69,6 +69,9 @@ class App extends Component {
             <ChangePassword flash={this.flash} user={user} />
           )} />
           <AuthenticatedRoute user={user} exact path='/bills' render={() => (
+            <BillIndex flash={this.flash} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} exact path='/bills-create' render={() => (
             <BillCreate flash={this.flash} user={user} />
           )} />
           <AuthenticatedRoute user={user} exact path='/bills/:id' render={() => (

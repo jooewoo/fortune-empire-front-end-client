@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
-import { showBills, deleteBill  } from '../api'
+import { showBills, deleteBill, editBill  } from '../api'
 import apiUrl from '../../apiConfig'
 import Moment from 'react-moment'
 import messages from '../messages'
 import BillCreate from './BillCreate'
+import BillForm from './BillForm'
 import './Bill.scss'
-import { Table, Button, Input, Icon, Tabs, InputNumber, Popconfirm, Form } from 'antd'
+import { Table, Button, Input, Icon, Tabs, InputNumber, Popconfirm, Form, Modal } from 'antd'
 import Highlighter from 'react-highlight-words'
 import 'antd/dist/antd.css'
 
@@ -20,12 +21,63 @@ class BillIndex extends Component {
       bills: [],
       user: props.user,
       selectedRowKeys: [],
-      searchText: ''
+      searchText: '',
+      flash: props.flash,
+      visible: false,
+      bill: this.initialBill(),
+      id: ''
     }
   }
 
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys })
+  }
+
+  showModal = event => {
+    const id = event.target.closest('tr').dataset.rowKey
+    this.setState({
+      visible: true, id: id
+    })
+  }
+
+  handleOk = () => {
+    this.setState({
+      confirmLoading: true
+    })
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false,
+      })
+    }, 2000)
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    })
+  }
+
+  onDateChange = (date, dateString) => {
+    const array = {...this.state.bill}
+    array.date = dateString
+    this.setState({ bill: array })
+  }
+
+  initialBill = () => {
+    return {
+      name: '',
+      price: '',
+      date: '',
+      user: this.props.user._id
+    }
+  }
+
+  handleChange = event => {
+    const editedBill = {
+      ...this.state.bill, [event.target.name]: event.target.value
+    }
+    this.setState({ bill: editedBill })
   }
 
   componentDidMount () {
@@ -107,46 +159,48 @@ class BillIndex extends Component {
     deleteBill(id, this.state.user.token)
       .then(res => res.ok ? res: new Error())
       .then(() => this.setState({ deleted: true }))
-      .then()
+      .then(() => this.index())
       .then(() => flash(messages.deleteBillSuccess, 'flash-success'))
       .catch(() => flash(messages.deleteBillFailure, 'flash-warning'))
   }
 
+  index = () => {
+    const { flash } = this.props
+
+    showBills(this.state)
+      .then(res => res.ok ? res: new Error())
+      .then(res => res.json())
+      .then(data => this.setState({ bills: data.bills }))
+      .then(() => {
+        if (this.state.bills.length === 0) {
+          flash(messages.noBills, 'flash-success')
+        }
+      })
+      .catch(() => flash(messages.getAllBillsFailure, 'flash-warning'))
+  }
+
+  edit = event => {
+    event.preventDefault()
+    const { flash } = this.state
+    const id = this.state.id
+
+    editBill(id, this.state)
+      .then(res => res.ok ? res : new Error())
+      .then(() => this.setState({ edited: true, visible: false }))
+      .then(() => this.index())
+      .then(() => flash(messages.editBillSuccess, 'flash-success'))
+      .catch(() => flash(messages.editBillFailure, 'flash-warning'))
+  }
+
   render () {
     const { flash } = this.props
-    const { bills, selectedRowKeys, user } = this.state
+    const { bills, selectedRowKeys, user, bill } = this.state
+    const { visible, confirmLoading, ModalText } = this.state
 
     let total = 0
     const totalCost = bills.map(bill => {
       total += bill.price
     })
-
-    const billsTable = bills.map(bill => {
-      return (
-        <tr key={bill._id} >
-          <td><Link className='td' to={`/bills/${bill._id}`}>{bill.name}</Link></td>
-          <td>${bill.price}</td>
-          <td><Moment format='MM/DD/YYYY'>{bill.date}</Moment></td>
-        </tr>
-      )
-    })
-
-    const table = (
-      <Fragment>
-        <table className='table table-striped table-hover'>
-          <thead className='thead'>
-            <tr>
-              <th>Bill</th>
-              <th>Price</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {billsTable}
-          </tbody>
-        </table>
-      </Fragment>
-    )
 
     const rowSelection = {
       selectedRowKeys,
@@ -165,7 +219,23 @@ class BillIndex extends Component {
           delete:
           <Fragment>
             <Button type="default" shape="circle" onClick={this.destroy} icon="delete"/>
-            <Button type="default" shape="circle" onClick={this.destroy} icon="edit"/>
+            <Button type="default" shape="circle" onClick={this.showModal} icon="edit"/>
+            <Modal
+              title="Edit Bill"
+              visible={visible}
+              onOk={this.edit}
+              onCancel={this.handleCancel}
+              okText="Edit"
+            >
+              <BillForm
+                className='create-bill-form'
+                handleChange={this.handleChange}
+                handleBill={this.edit}
+                bill={this.state.bill}
+                toggleName="Edit"
+                onDateChange={this.onDateChange}
+              />
+            </Modal>
           </Fragment>
         }
       )
@@ -199,16 +269,16 @@ class BillIndex extends Component {
       <Fragment>
         <Tabs defaultActiveKey="1">
           <TabPane tab="Bills" key="1">
-            <div className="whole-bills">
-              <div className="bills-table">
-                <BillCreate user={user} flash={flash} />
-                <Table rowSelection={rowSelection} columns={columns} dataSource={dataTable} />
-              </div>
-              <div className="talkbubble">${total}</div>
+            <div className="bills-tables">
+              <BillCreate user={user} flash={flash} />
+              <Table rowSelection={rowSelection} columns={columns} dataSource={dataTable} />
             </div>
           </TabPane>
           <TabPane tab="Statistics" key="2">
-            Content
+            <div className="whole-bills">
+
+              <div className="talkbubble">${total}</div>
+            </div>
           </TabPane>
         </Tabs>
 

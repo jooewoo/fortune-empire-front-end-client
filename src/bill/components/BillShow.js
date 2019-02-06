@@ -6,6 +6,8 @@ import Moment from 'react-moment'
 import BillEdit from './BillEdit'
 import messages from '../messages'
 import './Bill.scss'
+import { Table, Button, Input, Icon, Tabs, InputNumber, Popconfirm, Form } from 'antd'
+import 'antd/dist/antd.css'
 
 class BillShow extends Component {
   constructor (props) {
@@ -50,10 +52,8 @@ class BillShow extends Component {
           <p>Bill: {name}</p>
           <p>Price: ${price}</p>
           <p>Date: <Moment format='MM/DD/YYYY'>{date}</Moment></p>
-          <button onClick={this.destroy}>Delete</button>
-          <button>
-            <Link to="/bills">Back</Link>
-          </button>
+          <Link to="/bills"><Button type="default" icon="arrow-left"/></Link>
+          <Button onClick={this.destroy} shape="circle" icon="delete" />
           <BillEdit user={this.state.user} flash={this.state.flash}/>
         </div>
       </Fragment>

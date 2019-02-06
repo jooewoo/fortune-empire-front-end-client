@@ -5,6 +5,8 @@ import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import messages from '../messages'
 import './Bill.scss'
+import { Modal, Button, Icon } from 'antd'
+import 'antd/dist/antd.css'
 
 class BillEdit extends Component {
   constructor(props) {
@@ -16,8 +18,40 @@ class BillEdit extends Component {
       user: props.user,
       billID: props.match.params.id,
       isHidden: true,
-      flash: props.flash
+      flash: props.flash,
+      visible: false,
+      confirmLoading: false
     }
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    })
+  }
+
+  handleOk = () => {
+    this.setState({
+      confirmLoading: true
+    })
+    setTimeout(() => {
+      this.setState({
+        visible: false,
+        confirmLoading: false,
+      })
+    }, 2000)
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    })
+  }
+
+  onDateChange = (date, dateString) => {
+    const array = {...this.state.bill}
+    array.date = dateString
+    this.setState({ bill: array })
   }
 
   initialBill = () => {
@@ -27,11 +61,6 @@ class BillEdit extends Component {
       date: '',
       user: this.props.user._id
     }
-  }
-  toggleHidden () {
-    this.setState({
-      isHidden: !this.state.isHidden
-    })
   }
 
   handleChange = event => {
@@ -45,7 +74,7 @@ class BillEdit extends Component {
     event.preventDefault()
     const { flash } = this.state
 
-    editBill(this.state)
+    editBill(this.state.billID, this.state)
       .then(res => res.ok ? res : new Error())
       .then(() => this.setState({ edited: true }))
       .then(() => flash(messages.editBillSuccess, 'flash-success'))
@@ -53,21 +82,33 @@ class BillEdit extends Component {
   }
 
   render () {
+    const { created, id, flash, user, bill } = this.state
+    const { visible, confirmLoading, ModalText } = this.state
+
     if (this.state.edited === true) {
       return <Redirect to='/bills' />
     }
 
     return (
       <Fragment>
-        <button onClick={this.toggleHidden.bind(this)} >
-        Edit Your Bill
-        </button>
-        {!this.state.isHidden && <BillForm
-          handleChange={this.handleChange}
-          handleBill={this.edit}
-          bill={this.state.bill}
-          toggleName="Edit"
-        />}
+        <Button type="default" shape="circle" icon="edit" className="bill-modal" onClick={this.showModal}>
+        </Button>
+        <Modal
+          title="Edit Bill"
+          visible={visible}
+          onOk={this.edit}
+          onCancel={this.handleCancel}
+          okText="Submit"
+        >
+          <BillForm
+            className='create-bill-form'
+            handleChange={this.handleChange}
+            handleBill={this.edit}
+            bill={bill}
+            toggleName="Submit"
+            onDateChange={this.onDateChange}
+          />
+        </Modal>
       </Fragment>
     )
   }

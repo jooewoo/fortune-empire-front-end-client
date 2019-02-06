@@ -5,9 +5,10 @@ import { withRouter } from 'react-router'
 import apiUrl from '../../apiConfig'
 import BillForm from './BillForm'
 import BillIndex from './BillIndex'
-import BillModal from './BillModal'
 import messages from '../messages'
 import './Bill.scss'
+import { Modal, Button, Icon } from 'antd'
+import 'antd/dist/antd.css'
 
 class BillCreate extends Component {
   constructor(props) {
@@ -18,8 +19,29 @@ class BillCreate extends Component {
       user: props.user,
       id: '',
       created: false,
-      flash: props.flash
+      profile: props.location.profile,
+      flash: props.flash,
+      visible: false,
+      confirmLoading: false
     }
+  }
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    })
+  }
+
+  handleCancel = () => {
+    this.setState({
+      visible: false,
+    })
+  }
+
+  onDateChange = (date, dateString) => {
+    const array = {...this.state.bill}
+    array.date = dateString
+    this.setState({ bill: array })
   }
 
   initialBill = () => {
@@ -63,7 +85,27 @@ class BillCreate extends Component {
 
     return(
       <Fragment>
-        <BillModal bill={bill} />
+        <div className="bills">
+          <Button type="primary" className="bill-modal" onClick={this.showModal}>
+            <Icon type="plus" /> Add Bill
+          </Button>
+          <Modal
+            title="Add Bill"
+            visible={visible}
+            onOk={this.createBill}
+            onCancel={this.handleCancel}
+            okText="Submit"
+          >
+            <BillForm
+              className='create-bill-form'
+              handleChange={this.handleChange}
+              handleBill={this.createBill}
+              bill={bill}
+              toggleName="Submit"
+              onDateChange={this.onDateChange}
+            />
+          </Modal>
+        </div>
       </Fragment>
     )
   }

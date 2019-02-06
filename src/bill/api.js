@@ -59,7 +59,7 @@ export const showBill = (id, token) => {
   return fetch(`${apiUrl}/bills/${id}`, options)
 }
 
-export const editBill = (credentials) => {
+export const editBill = (id, credentials) => {
   const options = {
     method: 'PATCH',
     headers: {
@@ -71,5 +71,5 @@ export const editBill = (credentials) => {
     })
   }
 
-  return fetch(`${apiUrl}/bills/${credentials.billID}`, options)
+  return fetch(`${apiUrl}/bills/${id}`, options)
 }

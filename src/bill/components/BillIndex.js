@@ -6,6 +6,7 @@ import Moment from 'react-moment'
 import messages from '../messages'
 import BillCreate from './BillCreate'
 import BillForm from './BillForm'
+import DonutChart from './DonutChart'
 import './Bill.scss'
 import { Table, Button, Input, Icon, Tabs, InputNumber, Popconfirm, Form, Modal } from 'antd'
 import Highlighter from 'react-highlight-words'
@@ -38,18 +39,6 @@ class BillIndex extends Component {
     this.setState({
       visible: true, id: id
     })
-  }
-
-  handleOk = () => {
-    this.setState({
-      confirmLoading: true
-    })
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false,
-      })
-    }, 2000)
   }
 
   handleCancel = () => {
@@ -215,7 +204,7 @@ class BillIndex extends Component {
           view: <Link className='td' to={`/bills/${bill._id}`}>View</Link>,
           name: bill.name,
           price: `$${bill.price}`,
-          date: <Moment format='MM/DD/YYYY'>{bill.date}</Moment>,
+          date: bill.date.split('T')[0],
           delete:
           <Fragment>
             <Button type="default" shape="circle" onClick={this.destroy} icon="delete"/>
@@ -276,8 +265,7 @@ class BillIndex extends Component {
           </TabPane>
           <TabPane tab="Statistics" key="2">
             <div className="whole-bills">
-
-              <div className="talkbubble">${total}</div>
+              <DonutChart bills={bills} total={total} />
             </div>
           </TabPane>
         </Tabs>

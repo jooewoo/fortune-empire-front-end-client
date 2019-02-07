@@ -3,19 +3,51 @@ $teal: #0a6a88;
 $black: #000;
 $orange: #ffa500;
 
+.donut {
+  background-color: $white;
+  border-radius: 15px;
+  margin-left: 23%;
+  padding: 10px;
+  text-align: center;
+}
+
 .talkbubble {
   background: $orange;
   border-radius: 10px;
   color: $white;
   height: 50px;
+  margin-top: 20px;
   padding-top: 12px;
   position: relative;
   text-align: center;
-  width: 90px;
+  width: 185px;
+
+  .talkbubble-text {
+    font-size: 12px;
+  }
+}
+
+.nobills-talkbubble {
+  background: $orange;
+  border-radius: 10px;
+  color: $white;
+  height: 50px;
+  margin-left: 20%;
+  padding: 12px;
+  position: relative;
+  text-align: center;
+
+  .nobills-text {
+    font-size: 20px;
+  }
 }
 
 .ant-tabs-nav-wrap {
   color: $white;
+}
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 .whole-bills {

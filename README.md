@@ -62,6 +62,8 @@ Finally, I progressed to working on the front end client to try and achieve mini
 * JavaScript
 * Node.js
 * Bootstrap
+* Chart.js
+* Ant Design
 
 ## Author
 Made by Joseph Woo

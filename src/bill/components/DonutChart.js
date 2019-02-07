@@ -36,15 +36,16 @@ class DonutChart extends Component {
     }
 
     const filterBills = []
-    let total = 0
     const filterData = (
       this.state.bills.map(bill => {
+        let total = 0
         if (bill.date.split('-')[1] === months[value]) {
           filterBills.push(bill)
-          filterBills.map(bill => {
-            total += bill.price
-          })
         }
+        filterBills.map(bill => {
+          total += bill.price
+        })
+
         this.setState({
           month: filterBills,
           donut: true,

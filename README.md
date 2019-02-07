@@ -3,9 +3,10 @@
 This is a full stack capstone project built with React and Express. Fortune Empire keeps track of your personal finances, and to display your personal spending habits. The ultimate goal for this app is to help a user visualize their spending habits, and better manage their finances, while increasing their financial literacy. As a person who struggles to manage his own finances, I had the inspiration to build this app to help myself and others towards financial literacy.
 
 ## Try the app!
-To try the app, click on the deployed url above. Use the following credentials <strong>Username:</strong> hello@hello <strong>Password:</strong> world
+To try the app, click on the deployed url above. Use the following credentials <strong>Username:</strong> hello@world <strong>Password:</strong> hello
 
-![Front-End Picture](./public/front-end-picture.PNG)
+![Front-End Picture 1](./public/project-photo.PNG)
+![Front-End Picture 2](./public/project-photo-2.PNG)
 
 ## Front End Installation (Current Repo)
 1.  Fork and clone this repository.
